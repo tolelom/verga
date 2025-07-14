@@ -6,15 +6,20 @@ from datetime import datetime
 
 class AstrologyService:
     def __init__(self):
-        self.api_key  = config('ASTROLOGY_API_KEY')
+        self.api_key = config('ASTROLOGY_API_KEY')
         self.base_url = 'https://json.freeastrologyapi.com'
-        self.headers  = {
+        self.headers = {
             'Content-Type': 'application/json',
-            'x-api-key':     self.api_key
+            'x-api-key': self.api_key
         }
         # SVG URL 전용 매핑
-        self.svg_url_map = {
-            'D2': 'd2-chart-url',  # 테스트용: D2만 매핑
+        self.svg_url_map = {\
+            'D2': 'd2-chart-url',
+            'D3': 'd3-chart-url',
+            'D7': 'd7-chart-url',
+            'D9': 'd9-chart-url',
+            'D10': 'd10-chart-url',
+            'D12': 'd12-chart-url',
         }
 
     def get_varga_svg_urls(self, birth_data):
