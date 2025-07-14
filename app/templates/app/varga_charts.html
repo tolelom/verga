@@ -1,0 +1,72 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<body class="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 text-white flex flex-col items-center justify-center p-4">
+
+  <!-- Chart Page Section -->
+  <div id="chart-page" class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-4xl">
+    <!-- Chart Page Header -->
+    <header class="flex justify-between items-center mb-8 pb-4 border-b border-gray-700">
+      <div class="flex items-center">
+        <span class="mr-3 text-yellow-400 text-2xl">⭐</span>
+        <h2 class="text-2xl font-bold text-gray-100">{{ birth_chart.name }}님의 바르가 차트</h2>
+      </div>
+      <div class="flex items-center text-gray-300">
+        <span class="mr-2">{{ birth_chart.name }}</span>
+        <span class="bg-yellow-500 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center font-bold">
+          {{ birth_chart.name|slice:":1" }}
+        </span>
+      </div>
+    </header>
+
+    <!-- User Info Summary -->
+    <div class="bg-gray-700 p-6 rounded-xl mb-8 shadow-inner">
+      <h3 class="text-lg font-semibold mb-3 text-gray-200">출생 정보</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 text-gray-300">
+        <p class="flex items-center"><span class="mr-2">👤</span> 이름: {{ birth_chart.name }}</p>
+        <p class="flex items-center"><span class="mr-2">📅</span> 생년월일: {{ birth_chart.birth_date }}</p>
+        <p class="flex items-center"><span class="mr-2">⏰</span> 출생 시간: {{ birth_chart.birth_time }}</p>
+        <p class="flex items-center"><span class="mr-2">📍</span> 출생지: {{ birth_chart.birth_location }}</p>
+      </div>
+    </div>
+
+    <!-- Chart Cards Grid -->
+    <div id="chart-content">
+      <section class="mb-8">
+        <h3 class="text-lg font-semibold mb-4 text-gray-300">바르가 차트 목록</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {% for chart_type, url in svg_urls.items %}
+          <div class="bg-gray-700 rounded-xl shadow-lg text-center p-4">
+            <h5 class="text-xl font-semibold text-gray-100 mb-2">{{ chart_type }} 차트</h5>
+            <img src="{{ url }}" alt="{{ chart_type }} 차트" class="mx-auto mb-4 w-40 h-40 object-contain"/>
+            <a href="{% url 'chart_interpretation' birth_chart.id chart_type %}"
+               class="inline-block px-4 py-2 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-400 transition">
+              해석 보기
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Today's Fortune and Insight Section -->
+      <section class="bg-gray-700 p-6 rounded-xl shadow-inner mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-gray-200 flex items-center">
+          <span class="mr-3 text-yellow-400">⭐</span> 오늘의 운세 및 통찰
+        </h2>
+        <p class="text-gray-300 mb-2 font-medium">
+          {{ today_info.time }}: {{ today_info.description }}
+        </p>
+        <p class="text-gray-400 text-sm">{{ today_info.advice }}</p>
+      </section>
+
+      <!-- Generate New Chart Button -->
+      <button
+        id="new-chart-btn"
+        class="w-full py-4 bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg hover:bg-yellow-400 transition duration-300 ease-in-out transform hover:scale-105"
+        onclick="location.reload()"
+      >
+        새로 생성하기
+      </button>
+    </div>
+  </div>
+</body>
+{% endblock %}

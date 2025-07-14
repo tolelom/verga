@@ -1,0 +1,95 @@
+<!-- app/templates/app/index.html -->
+{% extends 'app/base.html' %}
+
+{% block content %}
+<body class="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 text-white flex flex-col items-center justify-center p-4">
+
+    <!-- Page Header -->
+    <header class="w-full max-w-4xl text-center mb-8">
+        <h1 class="text-4xl font-bold flex items-center justify-center">
+            <span class="mr-3 text-yellow-400">⭐</span> 바르가 차트 해석
+        </h1>
+        <p class="text-lg mt-2 text-gray-300">베디 점성술로 알아보는 나의 운명</p>
+    </header>
+
+    <!-- Input Page Section -->
+    <div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-2xl">
+        <p class="text-gray-300 text-center mb-6">
+            출생 정보를 입력하시면 개인 맞춤 바르가 차트를 생성해드립니다
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Personal Information Section -->
+            <section class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-200">개인 정보</h2>
+                <div class="mb-4">
+                    <label for="{{ form.name.id_for_label }}" class="block text-gray-400 text-sm font-medium mb-2">
+                        {{ form.name.label }}
+                    </label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        {% for error in form.name.errors %}
+                            <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </section>
+
+            <!-- Birth Information Section -->
+            <section class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-200">출생 정보</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="{{ form.birth_date.id_for_label }}" class="block text-gray-400 text-sm font-medium mb-2">
+                            {{ form.birth_date.label }}
+                        </label>
+                        {{ form.birth_date }}
+                        {% if form.birth_date.errors %}
+                            {% for error in form.birth_date.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.birth_time.id_for_label }}" class="block text-gray-400 text-sm font-medium mb-2">
+                            {{ form.birth_time.label }}
+                        </label>
+                        {{ form.birth_time }}
+                        {% if form.birth_time.errors %}
+                            {% for error in form.birth_time.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Birth Place Section -->
+            <section class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-gray-200">출생 장소</h2>
+                <div>
+                    <label for="{{ form.birth_location.id_for_label }}" class="block text-gray-400 text-sm font-medium mb-2">
+                        {{ form.birth_location.label }}
+                    </label>
+                    <div class="relative">
+                        {{ form.birth_location }}
+                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">📍</span>
+                        {% if form.birth_location.errors %}
+                            {% for error in form.birth_location.errors %}
+                                <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Generate Chart Button -->
+            <button type="submit" class="w-full py-4 bg-yellow-500 text-gray-900 font-bold rounded-xl shadow-lg hover:bg-yellow-400 transition duration-300 ease-in-out transform hover:scale-105">
+                바르가 차트 생성하기
+            </button>
+        </form>
+    </div>
+</body>
+{% endblock %}
