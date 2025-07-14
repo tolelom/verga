@@ -84,43 +84,29 @@ def varga_charts(request, birth_chart_id):
     })
 
 
-# Gemini Client 설정 (최상단)
+# Gemini Client 설정
 client = genai.Client(api_key=config('GEMINI_API_KEY'))
 
+
 def chart_interpretation(request, birth_chart_id, chart_type):
-    # …BirthChart, VargaChart 조회 생략…
+    """차트 해석 페이지 — 더미 데이터 반환"""
+    birth_chart = get_object_or_404(BirthChart, id=birth_chart_id)
+    varga_chart = get_object_or_404(VargaChart,
+                                    birth_chart=birth_chart,
+                                    chart_type=chart_type)
 
-    # SVG 다운로드
-    resp = requests.get(varga_charts.svg_url)
-    resp.raise_for_status()
-    svg_text = resp.text
-
-    # SVG → PNG 바이트 변환
-    png_data = svg_to_png(svg_text)
-
-    # 프롬프트 및 멀티모달 파트 구성
-    prompt_text = (
-        f"아래 베르가 차트({chart_type})를 분석하여\n"
-        "1) 주요 행성 배치 설명\n"
-        "2) 삶의 특정 영역 예측\n"
-        "3) 조언 및 권고사항\n"
-        "한국어로 친근하게 서술해주세요."
+    # 더미 해석 데이터
+    dummy_interpretation = (
+        "이 차트는 현재 테스트용 더미 데이터입니다.\n"
+        "1) 주요 행성 배치: 태양이 1궁에 위치하여 활발한 성격을 나타냅니다.\n"
+        "2) 삶의 특정 영역: 커리어에서 큰 성장이 예상됩니다.\n"
+        "3) 조언 및 권고사항: 매사에 긍정적인 마인드를 유지하세요."
     )
-    parts = [
-        types.Part.from_text(text=prompt_text),
-        types.Part.from_bytes(data=png_data, mime_type="image/png"),
-    ]
-
-    # Gemini 호출
-    response = client.models.generate_content(
-        model="gemini-2.5-pro",
-        contents=parts
-    )
-    interpretation = response.text
+    dummy_svg_url = varga_chart.svg_url  # 실제 URL 또는 placeholder 값 사용 가능
 
     return render(request, 'app/chart_interpretation.html', {
         'birth_chart':    birth_chart,
         'chart_type':     chart_type,
-        'svg_url':        varga_charts.svg_url,
-        'interpretation': interpretation,
+        'svg_url':        dummy_svg_url,
+        'interpretation': dummy_interpretation,
     })
