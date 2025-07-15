@@ -81,8 +81,8 @@ class GeminiService:
 # from google import genai
 # from google.genai import types
 #
-# api_key = "AIzaSyDYJqHq7nvmIYFXS2e2R49cQTgRy6MH-As"  # 본인 API키 입력
-# image_path = "C:/Users/98kim/Downloads/Chart_1752505954503.png"  # 여기에 로컬 PNG 파일 경로 입력
+# api_key = ""  # 본인 API키 입력
+# image_path = ""  # 여기에 로컬 PNG 파일 경로 입력
 #
 # # PNG 파일을 바이너리로 읽기
 # with open(image_path, "rb") as f:
