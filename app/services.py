@@ -74,3 +74,36 @@ class GeminiService:
             return response.text
         except Exception as e:
             return f"해석 중 오류가 발생했습니다: {str(e)}"
+
+
+
+
+# from google import genai
+# from google.genai import types
+#
+# api_key = "AIzaSyDYJqHq7nvmIYFXS2e2R49cQTgRy6MH-As"  # 본인 API키 입력
+# image_path = "C:/Users/98kim/Downloads/Chart_1752505954503.png"  # 여기에 로컬 PNG 파일 경로 입력
+#
+# # PNG 파일을 바이너리로 읽기
+# with open(image_path, "rb") as f:
+#     image_bytes = f.read()
+#
+# # Gemini API 클라이언트 초기화
+# client = genai.Client(api_key=api_key)
+#
+# # 이미지 파트 생성 (MIME 타입은 반드시 'image/png')
+# image_part = types.Part.from_bytes(
+#     data=image_bytes,
+#     mime_type="image/png"
+# )
+#
+# # API 호출 (프롬프트와 이미지 함께 전달)
+# resp = client.models.generate_content(
+#     model="gemini-2.5-flash",
+#     contents=[
+#         "이 이미지를 설명해줘. hora d2 chart 이미지야",
+#         image_part
+#     ]
+# )
+#
+# print(resp.text)
